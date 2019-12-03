@@ -75,10 +75,10 @@ class Blockchain:
         neighbours = self.nodes
         new_chain = None
 
-        # We're only looking for chains longer than ours
+        # Look for longer chains
         max_length = len(self.chain)
 
-        # Grab and verify the chains from all the nodes in our network
+        # Grab and verify the chains from all the nodes 
         for node in neighbours:
             response = requests.get(f'http://{node}/chain')
 
@@ -91,7 +91,7 @@ class Blockchain:
                     max_length = length
                     new_chain = chain
 
-        # Replace our chain if we discovered a new, valid chain longer than ours
+        # Replace our chain if there is a new, valid chain longer 
         if new_chain:
             self.chain = new_chain
             return True
@@ -202,11 +202,11 @@ blockchain = Blockchain()
 
 @app.route('/mine', methods=['GET'])
 def mine():
-    # We run the proof of work algorithm to get the next proof...
+    # Run the proof of work algorithm to get the next proof...
     last_block = blockchain.last_block
     proof = blockchain.proof_of_work(last_block)
 
-    # We must receive a reward for finding the proof.
+    # Receive a reward for finding the proof.
     # The sender is "0" to signify that this node has mined a new coin.
     blockchain.new_transaction(
         sender="0",
